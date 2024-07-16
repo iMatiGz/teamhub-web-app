@@ -1,8 +1,11 @@
+import { BrowserRouter } from 'react-router-dom';
+import { AppRouter } from './user-interface/shared/routing/app-router';
+
 function App() {
   return (
-    <>
-      <h1 className='text-white text-2xl'>Hola mundo</h1>
-    </>
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
   );
 }
 
