@@ -20,7 +20,7 @@ export const ServersList = () => {
   }, [data, error, isLoading]);
 
   return (
-    <section className='flex flex-col gap-2 w-[70px] h-[100dvh] items-center bg-[#1e2124] overflow-y-auto scrollbar-hide'>
+    <section className='flex flex-col gap-2 w-[70px] h-[100dvh] items-center servers-section-bg overflow-y-auto scrollbar-hide'>
       <div className='mt-3'>
         <ServerItem id='@me' name='Direct Messages' icon='/icons/discord-mark-white.svg' />
         <hr className='mt-2 border-gray-500 mx-2' />

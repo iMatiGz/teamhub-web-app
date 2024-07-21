@@ -1,6 +1,10 @@
 import { LoginSection } from './components/login-section';
 
+const TITLE = 'Teamhub | Login';
+
 export const LoginPage = () => {
+  document.title = TITLE;
+
   return (
     <main>
       <main className='flex h-dvh'>
