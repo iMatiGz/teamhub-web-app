@@ -4,7 +4,9 @@ export const LoginSection = () => {
   return (
     <section className='flex gap-16 bg-[#33363b] p-8 rounded-md'>
       <div className='flex flex-col w-[416px]'>
-        <h2 className='text-[20px] font-semibold text-center'>¡Te damos la bienvenida de nuevo!</h2>
+        <h2 className='text-2xl font-semibold text-center tracking-wide'>
+          ¡Te damos la bienvenida de nuevo!
+        </h2>
         <p className='text-center pt-1 text-neutral-400 text-sm'>¡Nos alegra verte de nuevo!</p>
         <LoginForm />
       </div>

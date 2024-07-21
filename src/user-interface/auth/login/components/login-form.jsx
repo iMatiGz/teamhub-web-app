@@ -2,16 +2,17 @@ import { useEffect, useState } from 'react';
 import { Alert, Snackbar } from '@mui/material';
 import { useFetch } from '../../../../hooks/useFetch';
 import { useNavigate } from 'react-router-dom';
+import { useUserStore } from '../../../../hooks/contexts/useUserStore';
 
 const API_URL = import.meta.env.VITE_API_URL || null;
-const TITLE = 'Teamhub | Login';
 
 export const LoginForm = () => {
-  document.title = TITLE;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [trigger, setTrigger] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
+  const setUserData = useUserStore(state => state.setUserData);
+  const setUserControls = useUserStore(state => state.setControls);
   const navigate = useNavigate();
   const { data, error, isLoading } = useFetch(`${API_URL}/login`, 'GET', trigger, {
     'Content-Type': 'application/json',
@@ -21,6 +22,14 @@ export const LoginForm = () => {
   useEffect(() => {
     if (error) return setOpenAlert(true);
     if (data) {
+      const userData = {
+        id: data.user_id,
+        name: data.username,
+        avatar: data.profile_image,
+        status: data['status.name'],
+      };
+      setUserData(userData);
+      setUserControls();
       return navigate('/home');
     }
   }, [data, error, isLoading]);
