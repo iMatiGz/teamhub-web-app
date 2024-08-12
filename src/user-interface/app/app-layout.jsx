@@ -9,6 +9,11 @@ const socket = io('/');
 
 export const AppPage = () => {
   const user = useUserStore(state => state.user);
+  const updateUserData = useUserStore(state => state.updateUserData);
+
+  socket.on('connectedSuccesfully', status => {
+    updateUserData({ status: status });
+  });
 
   useEffect(() => {
     socket.emit('userLogged', user.id);
@@ -19,7 +24,9 @@ export const AppPage = () => {
       <ServersList />
       <div className='flex flex-col w-full'>
         <Outlet />
-        <UserControls />
+        <div className='min-w-60 absolute bottom-0'>
+          <UserControls />
+        </div>
       </div>
     </section>
   );

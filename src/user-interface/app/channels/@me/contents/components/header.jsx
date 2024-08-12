@@ -1,8 +1,32 @@
-import { Divider } from '@mui/material';
+import { Alert, Divider, Modal, Snackbar } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useFetch } from '../../../../../../hooks/useFetch';
 
-export const FriendsContentHeader = () => {
-  const grayButtonStyle =
-    'text-[#999] font-semibold h-6 px-2 rounded-md hover:bg-gray-500/10 hover:text-[#ccc] active:text-white';
+const API_URL = import.meta.env.VITE_API_URL;
+
+export const FriendsContentHeader = ({ currentFilter, changeFilter }) => {
+  const [showAddFriendModal, setShowAddFriendModal] = useState(false);
+  const [openSuccessText, setOpenSuccessText] = useState(false);
+  const [openErrorText, setOpenErrorText] = useState(false);
+  const [writtenUsername, setWrittenUsername] = useState('');
+  const [trigger, setTrigger] = useState(false);
+  const { data, error, isLoading } = useFetch(
+    `${API_URL}/users/friend-request?username=${writtenUsername}`,
+    'GET',
+    trigger
+  );
+
+  const handleSearchUser = async () => {
+    if (writtenUsername.length === 0) return;
+    setTrigger(true);
+    setShowAddFriendModal(false);
+  };
+
+  useEffect(() => {
+    setTrigger(false);
+    if (error) setOpenErrorText(true);
+    if (data) setOpenSuccessText(true);
+  }, [data, error, isLoading]);
 
   return (
     <header className='flex justify-between'>
@@ -18,11 +42,34 @@ export const FriendsContentHeader = () => {
           sx={{ height: 25, alignSelf: 'center', bgcolor: '#555' }}
         />
         <section className='flex gap-4 items-center'>
-          <button className={grayButtonStyle}>Online</button>
-          <button className={grayButtonStyle}>All</button>
-          <button className={grayButtonStyle}>Pending</button>
-          <button className={grayButtonStyle}>Blocked</button>
-          <button className='text-white bg-green-700 font-semibold h-6 px-2 rounded-md'>Add Friend</button>
+          <button
+            className={`text-[#999] font-semibold h-6 px-2 rounded-md hover:bg-gray-500/10 hover:text-[#ccc] active:text-white ${
+              currentFilter === 'Online' && 'bg-white/10 text-white'
+            }`}
+            onClick={() => changeFilter('Online')}
+          >
+            Online
+          </button>
+          <button
+            className={`text-[#999] font-semibold h-6 px-2 rounded-md hover:bg-gray-500/10 hover:text-[#ccc] active:text-white ${
+              currentFilter === 'All Friends' && 'bg-white/10 text-white'
+            }`}
+            onClick={() => changeFilter('All Friends')}
+          >
+            All
+          </button>
+          <button className='text-[#999] font-semibold h-6 px-2 rounded-md hover:bg-gray-500/10 hover:text-[#ccc] active:text-white'>
+            Pending
+          </button>
+          <button className='text-[#999] font-semibold h-6 px-2 rounded-md hover:bg-gray-500/10 hover:text-[#ccc] active:text-white'>
+            Blocked
+          </button>
+          <button
+            className='text-white bg-green-700 font-semibold h-6 px-2 rounded-md'
+            onClick={() => setShowAddFriendModal(true)}
+          >
+            Add Friend
+          </button>
         </section>
       </section>
       <section className='flex gap-4 mr-4 items-center'>
@@ -36,6 +83,44 @@ export const FriendsContentHeader = () => {
         {inboxSvg}
         {helpSvg}
       </section>
+      <Modal open={showAddFriendModal} onClose={() => setShowAddFriendModal(false)}>
+        <section className='flex flex-col justify-center items-center h-full'>
+          <input
+            id='edit-data-input'
+            type='text'
+            placeholder='Search by username'
+            onChange={e => setWrittenUsername(e.target.value)}
+            className='w-64 h-10 p-3 rounded-md outline-none'
+            autoComplete='false'
+            required
+          />
+          <div className='flex mt-3 gap-4'>
+            <button className='p-2 text-sm w-20' onClick={() => setShowAddFriendModal(false)}>
+              Cancel
+            </button>
+            <button
+              className='flex items-center justify-center p-2 text-sm w-24 h-8 bg-green-700 rounded-sm'
+              onClick={handleSearchUser}
+            >
+              Search
+            </button>
+          </div>
+        </section>
+      </Modal>
+      {openSuccessText && (
+        <Snackbar open={openSuccessText} autoHideDuration={5000} onClose={() => setOpenSuccessText(false)}>
+          <Alert severity='success' variant='filled' onClose={() => setOpenSuccessText(false)}>
+            Friend request sent successfully.
+          </Alert>
+        </Snackbar>
+      )}
+      {openErrorText && (
+        <Snackbar open={openErrorText} autoHideDuration={5000} onClose={() => setOpenErrorText(false)}>
+          <Alert severity='error' variant='filled' onClose={() => setOpenErrorText(false)}>
+            {`User ${writtenUsername} not found.`}
+          </Alert>
+        </Snackbar>
+      )}
     </header>
   );
 };

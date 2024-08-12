@@ -8,7 +8,7 @@ export const useUserStore = create(
       controls: {},
 
       setUserData: userData => set(() => ({ user: userData })),
-      updateUserData: userData => set(state => ({ user: { ...state, ...userData } })),
+      updateUserData: userData => set(state => ({ user: { ...state.user, ...userData } })),
       deleteUserData: () => set(() => ({ user: {} })),
 
       setControls: () => set(() => ({ controls: { microphone: true, sound: true } })),

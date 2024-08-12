@@ -11,7 +11,7 @@ export const MeChannel = () => {
 
   return (
     <section className='flex'>
-      <section className='flex flex-col h-[93dvh] w-60 channel-section-bg '>
+      <section className='flex flex-col h-[93dvh] min-w-60 max-w-60 channel-section-bg '>
         <div className='m-[10px]'>
           <input
             id='start-conversation'
