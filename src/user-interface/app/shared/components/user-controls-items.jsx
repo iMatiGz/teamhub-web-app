@@ -8,7 +8,7 @@ const SOUNDS = {
   undeafen: new Audio('/sounds/discord_undeafen.mp3'),
 };
 
-export const UserControlsItem = ({ name, type }) => {
+export const UserControlsItem = ({ name, type, showModal = false }) => {
   const control = useUserStore(state => state.controls);
   const updateControl = useUserStore(state => state.updateControls);
 
@@ -25,6 +25,8 @@ export const UserControlsItem = ({ name, type }) => {
       else updateControl({ sound: !control.sound });
       control.sound ? SOUNDS['deafen'].play() : SOUNDS['undeafen'].play();
     }
+
+    if (type === 'settings') showModal(true);
   };
 
   return (

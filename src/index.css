@@ -8,36 +8,51 @@
   width: 1px;
   background: transparent;
 }
-
 .scrollbar-hide::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
-
 .scrollbar-thin::-webkit-scrollbar {
   width: 4px;
   margin-right: 5px;
 }
-
 .scrollbar-thin::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
 }
-
+.scrollbar-wide::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollbar-wide::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+}
 .servers-section-bg {
   background: color-mix(in oklab, hsl(225 calc(1 * 6.3%) 12.5% / 1) 100%, black 0%);
 }
-
 .channel-section-bg {
   background: color-mix(in oklab, hsl(220 calc(1 * 6.5%) 18% / 1) 100%, black 0%);
 }
-
 .user-controls-bg {
   background: color-mix(in oklab, hsl(228 calc(1 * 6.7%) 14.7% / 1) 100%, black 0%);
 }
-
+.global-color-bg {
+  background: color-mix(in oklab, hsl(223 calc(1 * 6.7%) 20.6% / 1) 100%, black 0%);
+}
+.message-input-bg {
+  background: color-mix(in oklab, hsl(223 calc(1 * 5.8%) 23.9% / 1) 100%, black 0%);
+}
 .label-color {
   color: color-mix(in oklab, hsl(223 calc(1 * 5.8%) 52.9% / 1) 100%, black 0%);
+}
+
+.server-item {
+  transition: 0.2s ease-in-out;
+  border-radius: 50%;
+}
+.server-item:hover {
+  transition: 0.2s ease-in-out;
+  border-radius: 17px;
 }
 
 * {

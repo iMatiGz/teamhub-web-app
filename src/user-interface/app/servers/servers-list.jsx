@@ -3,12 +3,14 @@ import { useFetch } from '../../../hooks/useFetch';
 import { FeatureItem, ServerItem } from './server-item';
 import ExploreIcon from '@mui/icons-material/Explore';
 import AddIcon from '@mui/icons-material/Add';
+import { useUserStore } from '../../../hooks/contexts/useUserStore';
 
 const API_URL = import.meta.env.VITE_API_URL || null;
 
 export const ServersList = () => {
   const [serverItems, setServerItems] = useState([]);
-  const { data, error, isLoading } = useFetch(`${API_URL}/servers?userId=${10}`, 'GET', true);
+  const user = useUserStore(state => state.user);
+  const { data, error, isLoading } = useFetch(`${API_URL}/servers?userId=${user.id}`, 'GET', true);
 
   useEffect(() => {
     if (data) {

@@ -1,10 +1,13 @@
 import { UserAvatar } from '../components/user-avatar';
 import { UserControlsItem } from '../components/user-controls-items';
 import { useUserStore } from '../../../../hooks/contexts/useUserStore';
+import { useState } from 'react';
+import { UserSettingsModal } from '../components/user-settings-modal';
 
 export const UserControls = () => {
   const user = useUserStore(state => state.user);
   const controls = useUserStore(state => state.controls);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <section className='flex h-[7dvh] max-w-60 justify-between items-center px-[10px] user-controls-bg'>
@@ -21,8 +24,9 @@ export const UserControls = () => {
           type='microphone'
         />
         <UserControlsItem name={controls?.sound ? 'Deafen' : 'Undeafen'} type='sound' />
-        <UserControlsItem name='User Settings' />
+        <UserControlsItem name='User Settings' type='settings' showModal={setShowModal} />
       </section>
+      {showModal && <UserSettingsModal showModal={showModal} setShowModal={setShowModal} />}
     </section>
   );
 };
