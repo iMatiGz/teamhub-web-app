@@ -15,7 +15,12 @@ export const ChannelLayout = () => {
   const currentServer = useServerStore(state => state.currentServer);
   const [openCreateChannelModal, setOpenCreateChannelModal] = useState(false);
   const [channels, setChannels] = useState([]);
-  const { data, error, isLoading } = useFetch(`${API_URL}/servers/channels?serverId=${server}`, 'GET', true);
+  const [trigger, setTrigger] = useState(true);
+  const { data, error, isLoading } = useFetch(
+    `${API_URL}/servers/channels?serverId=${server}`,
+    'GET',
+    trigger
+  );
 
   useEffect(() => {
     if (data) {
@@ -40,6 +45,16 @@ export const ChannelLayout = () => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    socket.on('channelGotDeleted', () => {
+      setTrigger(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!trigger) setTrigger(true);
+  }, [trigger]);
 
   return (
     <section className='flex'>

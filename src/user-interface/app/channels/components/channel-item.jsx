@@ -1,5 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useServerStore } from '../../../../hooks/contexts/useServerStore';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { io } from 'socket.io-client';
+
+const socket = io('/');
 
 export const ChannelItem = ({ channelId, name }) => {
   const navigate = useNavigate();
@@ -12,6 +16,13 @@ export const ChannelItem = ({ channelId, name }) => {
     navigate(`/channels/${server}/${channelId}`);
   };
 
+  const handleDeleteMessage = () => {
+    const channel = {
+      id: channelId,
+    };
+    socket.emit('channelDeleted', channel);
+  };
+
   return (
     <div
       className={`flex flex-none group gap-3 mx-2 px-2 items-center rounded-md hover:bg-[#33373b] hover:cursor-pointer h-11`}
@@ -22,6 +33,9 @@ export const ChannelItem = ({ channelId, name }) => {
           {hashtagSvg}
           {name}
         </span>
+        <button className='text-red-400 hidden group-hover:flex' onClick={handleDeleteMessage}>
+          <DeleteIcon sx={{ height: 20 }} />
+        </button>
       </div>
     </div>
   );
