@@ -47,12 +47,15 @@ export const ChannelMsgContent = () => {
 
   useEffect(() => {
     socket.on('messageGotDeleted', () => {
-      setTrigger(true);
+      setTrigger(false);
     });
   }, []);
 
   useEffect(() => {
-    setTrigger(false);
+    if (!trigger) setTrigger(true);
+  }, [trigger]);
+
+  useEffect(() => {
     if (data) {
       const messages = data.map(m => {
         return (
