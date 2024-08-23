@@ -1,8 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { BlackTooltip } from '../../shared/mui-styles/tooltip-styles';
 import { useServerStore } from '../../../hooks/contexts/useServerStore';
-import { useState } from 'react';
-import { AddServerModal } from './components/add-server-modal';
 
 export const ServerItem = ({ id, name, icon, gray = false }) => {
   const navigate = useNavigate();
@@ -25,9 +23,7 @@ export const ServerItem = ({ id, name, icon, gray = false }) => {
   );
 };
 
-export const FeatureItem = ({ name, icon }) => {
-  const [openCreateServer, setOpenCreateServer] = useState(false);
-
+export const FeatureItem = ({ name, icon, setOpenCreateServer }) => {
   return (
     <>
       <BlackTooltip title={name} placement='right'>
@@ -40,7 +36,6 @@ export const FeatureItem = ({ name, icon }) => {
           </div>
         </div>
       </BlackTooltip>
-      <AddServerModal openCreateServer={openCreateServer} setOpenCreateServer={setOpenCreateServer} />
     </>
   );
 };

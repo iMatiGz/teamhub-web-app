@@ -5,7 +5,7 @@ import { useFetch } from '../../../../hooks/useFetch';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const AddServerModal = ({ openCreateServer, setOpenCreateServer }) => {
+export const AddServerModal = ({ openCreateServer, setOpenCreateServer, reloadServersList }) => {
   const user = useUserStore(state => state.user);
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [serverName, setServerName] = useState(`${user.name}'s server`);
@@ -28,7 +28,10 @@ export const AddServerModal = ({ openCreateServer, setOpenCreateServer }) => {
 
   useEffect(() => {
     setTrigger(false);
-    if (data) setShowSuccessMsg(true);
+    if (data) {
+      setShowSuccessMsg(true);
+      reloadServersList(true);
+    }
   }, [data, error, isLoading]);
 
   return (

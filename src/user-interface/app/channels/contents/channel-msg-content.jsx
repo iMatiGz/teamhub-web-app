@@ -84,7 +84,7 @@ export const ChannelMsgContent = () => {
         </header>
         <hr className='w-full border-[#1e2124] shadow-xl' />
       </div>
-      <section className='flex flex-col gap-4 mx-2 py-4 overflow-y-auto overflow-x-hidden scrollbar-wide'>
+      <section className='flex flex-col gap-4 mx-2 py-4 flex-1 overflow-y-auto overflow-x-hidden scrollbar-wide'>
         {data && messages}
         <div ref={messagesEndRef} />
       </section>
