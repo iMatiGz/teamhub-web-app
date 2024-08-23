@@ -5,10 +5,12 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import AddIcon from '@mui/icons-material/Add';
 import { useUserStore } from '../../../hooks/contexts/useUserStore';
 import { AddServerModal } from './components/add-server-modal';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL || null;
 
 export const ServersList = () => {
+  const navigate = useNavigate();
   const [serverItems, setServerItems] = useState([]);
   const user = useUserStore(state => state.user);
   const [trigger, setTrigger] = useState(true);
@@ -18,6 +20,7 @@ export const ServersList = () => {
 
   useEffect(() => {
     if (trigger) setTrigger(false);
+    if (error && error?.status === 401) return navigate('/login');
     if (data) {
       const items = data.map(s => {
         return <ServerItem key={s.server_id} id={s.server_id} name={s.name} icon={s.icon} />;
