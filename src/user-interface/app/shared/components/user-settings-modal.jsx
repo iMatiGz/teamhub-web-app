@@ -2,10 +2,12 @@ import { Alert, Avatar, Modal, Snackbar } from '@mui/material';
 import { useUserStore } from '../../../../hooks/contexts/useUserStore';
 import { useFetch } from '../../../../hooks/useFetch';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const UserSettingsModal = ({ showModal, setShowModal }) => {
+  const navigate = useNavigate();
   const user = useUserStore(state => state.user);
   const { data, error, isLoading } = useFetch(`${API_URL}/users/me/data`, 'GET', true);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -29,6 +31,8 @@ export const UserSettingsModal = ({ showModal, setShowModal }) => {
     if (res.ok) setOpenSuccessText(true);
     setShowEditModal(false);
   };
+
+  const handleLogout = () => navigate('/login');
 
   return (
     <Modal open={showModal} onClose={() => setShowModal(false)}>
@@ -99,6 +103,9 @@ export const UserSettingsModal = ({ showModal, setShowModal }) => {
                   Edit
                 </button>
               </div>
+              <button className='mt-2 p-2 bg-red-500/75 rounded-sm' onClick={handleLogout}>
+                Log Out
+              </button>
             </section>
           )}
         </div>

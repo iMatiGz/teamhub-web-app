@@ -12,16 +12,18 @@ const socket = io('/');
 
 export const ChannelMsgContent = () => {
   const { channel } = useParams();
+  const user = useUserStore(state => state.user);
   const currentServer = useServerStore(state => state.currentServer);
   const currentChannel = useServerStore(state => state.currentChannel);
   const userData = useUserStore(state => state.user);
   const messagesEndRef = useRef(null);
   const [writtenMessage, setWrittenMessage] = useState('');
+  const [trigger, setTrigger] = useState(true);
   const [messages, setMessages] = useState([]);
   const { data, error, isLoading } = useFetch(
     `${API_URL}/servers/channels/messages?channelId=${channel}`,
     'GET',
-    true
+    trigger
   );
   document.title = `Teamhub | #${currentChannel.name} | ${currentServer.name}`;
 
@@ -31,6 +33,9 @@ export const ChannelMsgContent = () => {
         ...prevMessages,
         <MessageBubble
           key={message.message_id}
+          messageId={message.message_id}
+          senderId={message.user_id}
+          currentUserId={user.id}
           avatar={message.avatar}
           content={message.content}
           creationDate={message.creation_date}
@@ -41,11 +46,21 @@ export const ChannelMsgContent = () => {
   }, []);
 
   useEffect(() => {
+    socket.on('messageGotDeleted', () => {
+      setTrigger(true);
+    });
+  }, []);
+
+  useEffect(() => {
+    setTrigger(false);
     if (data) {
       const messages = data.map(m => {
         return (
           <MessageBubble
             key={m.message_id}
+            messageId={m.message_id}
+            senderId={m.user_id}
+            currentUserId={user.id}
             avatar={m.avatar}
             content={m.content}
             creationDate={m.creation_date}
