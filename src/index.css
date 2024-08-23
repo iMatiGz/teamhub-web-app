@@ -42,6 +42,12 @@
 .message-input-bg {
   background: color-mix(in oklab, hsl(223 calc(1 * 5.8%) 23.9% / 1) 100%, black 0%);
 }
+.brown-input-bg {
+  background: color-mix(in oklab, hsl(225 calc(1 * 6.3%) 12.5% / 1) 100%, black 0%);
+}
+.indigo-color {
+  background: hsl(235 calc(1 * 85.6%) 64.7% / 1);
+}
 .label-color {
   color: color-mix(in oklab, hsl(223 calc(1 * 5.8%) 52.9% / 1) 100%, black 0%);
 }
@@ -67,6 +73,7 @@ body {
   color-scheme: dark light;
   max-width: 100vw;
   overflow-x: hidden;
+  overflow-y: hidden;
   text-rendering: optimizeLegibility;
   font-family: 'gg sans Normal', 'Montserrat', 'Poppins';
 }
